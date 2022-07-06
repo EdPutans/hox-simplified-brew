@@ -1,6 +1,26 @@
 import './style.css';
 
-const testBreweries = [
+type Brewery = {
+  id: string;
+  name: string;
+  brewery_type: string;
+  street: string | null;
+  address_2: null;
+  address_3: null;
+  city: string;
+  state: string;
+  county_province: null;
+  postal_code: string;
+  country: string;
+  longitude: unknown;
+  latitude: unknown;
+  phone: string | null;
+  website_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+const testBreweries: Array<Brewery> = [
   {
     "id": "banjo-brewing-fayetteville",
     "name": "Banjo Brewing",
@@ -60,37 +80,33 @@ const testBreweries = [
   }
 ]
 
-// const testBrewery = {
-//   id: "bay-brewing-company-miami",
-//   name: "Bay Brewing Company",
-//   brewery_type: "planning",
-//   street: null,
-//   address_2: null,
-//   address_3: null,
-//   city: "Miami",
-//   state: "Florida",
-//   county_province: null,
-//   postal_code: "33130-3488",
-//   country: "United States",
-//   longitude: null,
-//   latitude: null,
-//   phone: "18134763767",
-//   website_url: null,
-//   updated_at: "2021-1023T02:55.243Z",
-//   created_at: "2021-1023T0:24:55.243Z"
-// };
 
 
 const main = document.querySelector('main');
 
 const article = document.createElement('article');
 
+const rawHTML = `
+  <h1>List of Breweries</h1>
+  <header class="search-bar">
+    <form id="search-breweries-form" autocomplete="off">
+      <label id='banana' for="search-breweries"><h2>Search breweries:</h2></label>
+      <input id="search-breweries" name="search-breweries" type="text" />
+    </form>
+  </header>
+`;
+
+main.innerHTML = rawHTML;
+
 if (main) {
   main.append(article);
 }
 
-for (let testBrewery of testBreweries) {
+for (let brewery of testBreweries) {
+  renderSingleBrewery(brewery)
+}
 
+function renderSingleBrewery(brewery: Brewery) {
   const ulEl = document.createElement('ul');
   ulEl.className = 'breweries-list';
 
@@ -100,7 +116,7 @@ for (let testBrewery of testBreweries) {
   ulEl.append(liEl);
 
   const h2El = document.createElement('h2');
-  h2El.textContent = testBrewery.name;
+  h2El.textContent = brewery.name;
   liEl.append(h2El);
 
   const divEl = document.createElement('div');
@@ -114,10 +130,9 @@ for (let testBrewery of testBreweries) {
   const h3 = document.createElement('h3');
   h3.textContent = 'Address:'
   const p = document.createElement('p');
-  p.textContent = testBrewery.street || "No address for this boi"
+  p.textContent = brewery.street || "No address for this boi"
   const pp = document.createElement('p');
 
   sectionEl.append(h3, p, pp)
   liEl.appendChild(sectionEl);
-
 }
